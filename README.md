@@ -6,7 +6,7 @@
 
 PharoCompatibility is a small compatibility surface library for Pharo projects that need to keep running while APIs move between Pharo versions.
 
-The current surface helps code written against Pharo 12 load on Pharo 13 or newer by restoring a few removed or renamed globals and authoring protocols.
+The current surfaces help code written against Pharo 12 load on Pharo 13 or newer, and help code developed against the Pharo 13 surface remain loadable on Pharo 12 where equivalent APIs can be restored.
 
 ## Installation
 
@@ -32,6 +32,17 @@ spec
 ```
 
 The `Pharo12Surface` group loads the core package on Pharo 12 and also loads the Pharo 13 compatibility surface package on Pharo 13 or newer.
+
+To develop against the Pharo 13 surface while keeping a project loadable on Pharo 12, load `Pharo13Surface` instead:
+
+```smalltalk
+spec
+  baseline: 'PharoCompatibility'
+  with: [
+    spec
+      repository: 'github://Evref-BL/PharoCompatibility:develop/src';
+      loads: #( 'Pharo13Surface' ) ]
+```
 
 If you only need the core helper API, omit the `loads:` line:
 
@@ -71,6 +82,11 @@ The Pharo 12 surface currently provides:
 - `RBPullUpInstanceVariableRefactoring` mapped to the replacement refactoring class.
 - `RBPushDownInstanceVariableRefactoring` mapped to the replacement refactoring class.
 - A minimal `Author` compatibility class when `Author` is no longer present.
+
+The Pharo 13 surface currently provides:
+
+- `OCSyntaxErrorNotice` mapped to the available syntax error notice class.
+- `RePullUpInstanceVariableRefactoring` mapped to the available pull-up refactoring class.
 
 You can also install the surface explicitly from code:
 
