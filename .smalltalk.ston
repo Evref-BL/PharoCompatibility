@@ -1,0 +1,19 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'PharoCompatibility',
+      #directory : 'src',
+      #load : [ 'Tests' ],
+      #platforms : [ #pharo ]
+    }
+  ],
+  #testing : {
+    #packages : [
+      'PharoCompatibility-Tests'
+    ],
+    #coverage : {
+      #packages : [ 'PharoCompatibility-Core' ],
+      #format : #lcov
+    }
+  }
+}
