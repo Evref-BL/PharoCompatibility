@@ -12,13 +12,20 @@ Class {
 { #category : 'tests' }
 PharoCompatibilityTest >> testAuthorCompatibilityProtocol [
 
-	| authorClass |
+	| authorClass observedFullName |
 	PharoCompatibility installPharo12Surface.
 	authorClass := Smalltalk at: #Author ifAbsent: [ nil ].
 	self assert: authorClass notNil.
 	self assert: (authorClass respondsTo: #fullNamePerSe).
 	self assert: (authorClass respondsTo: #useAuthor:during:).
-	self assert: (authorClass useAuthor: 'MCP' during: [ 42 ]) equals: 42
+	self assert: authorClass fullNamePerSe equals: ''.
+	self
+		assert: (authorClass useAuthor: 'MCP' during: [
+				 observedFullName := authorClass fullNamePerSe.
+				 42 ])
+		equals: 42.
+	self assert: observedFullName equals: 'MCP'.
+	self assert: authorClass fullNamePerSe equals: ''
 ]
 
 { #category : 'tests' }

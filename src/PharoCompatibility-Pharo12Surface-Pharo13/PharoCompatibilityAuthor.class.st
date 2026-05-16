@@ -4,6 +4,9 @@ Minimal Pharo 12 Author-compatible class for Pharo versions where Author was rem
 Class {
 	#name : 'PharoCompatibilityAuthor',
 	#superclass : 'Object',
+	#classInstVars : [
+		'CurrentFullName'
+	],
 	#category : 'PharoCompatibility-Pharo12Surface-Pharo13-Surfaces',
 	#package : 'PharoCompatibility-Pharo12Surface-Pharo13',
 	#tag : 'Surfaces'
@@ -18,23 +21,28 @@ PharoCompatibilityAuthor class >> fullName [
 { #category : 'convenience' }
 PharoCompatibilityAuthor class >> fullName: aString [
 
-	^ aString
+	CurrentFullName := aString ifNil: [ '' ].
+	^ CurrentFullName
 ]
 
 { #category : 'convenience' }
 PharoCompatibilityAuthor class >> fullNamePerSe [
 
-	^ ''
+	^ CurrentFullName ifNil: [ '' ]
 ]
 
 { #category : 'class initialization' }
 PharoCompatibilityAuthor class >> reset [
 
+	CurrentFullName := ''.
 	^ self
 ]
 
 { #category : 'testing - support' }
 PharoCompatibilityAuthor class >> useAuthor: authorName during: aBlock [
 
-	^ aBlock value
+	| previousFullName |
+	previousFullName := self fullNamePerSe.
+	self fullName: authorName.
+	^ [ aBlock value ] ensure: [ self fullName: previousFullName ]
 ]
