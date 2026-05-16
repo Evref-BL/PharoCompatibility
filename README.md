@@ -83,11 +83,6 @@ The Pharo 12 surface currently provides:
 - `RBPushDownInstanceVariableRefactoring` mapped to the replacement refactoring class.
 - A minimal `Author` compatibility class when `Author` is no longer present.
 
-The Pharo 13 surface currently provides:
-
-- `OCSyntaxErrorNotice` mapped to the available syntax error notice class.
-- `RePullUpInstanceVariableRefactoring` mapped to the available pull-up refactoring class.
-
 You can also install the surface explicitly from code:
 
 ```smalltalk
