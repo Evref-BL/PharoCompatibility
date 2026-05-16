@@ -106,13 +106,16 @@ PharoCompatibility
 
 ## Testing
 
-Run the tests from a loaded image:
+Load the `Tests` group to get the common tests plus the surface-specific test package for the current Pharo version:
 
 ```smalltalk
-PharoCompatibilityTest suite run
+Metacello new
+  baseline: 'PharoCompatibility';
+  repository: 'github://Evref-BL/PharoCompatibility:main/src';
+  load: 'Tests'
 ```
 
-The repository also includes a smalltalkCI configuration. CI runs the test package on Pharo 11, Pharo 12, and Pharo 13:
+The repository also includes a smalltalkCI configuration. CI loads the `Tests` group and runs the loaded test packages on Pharo 11, Pharo 12, and Pharo 13:
 
 ```sh
 smalltalkci -s Pharo64-11

@@ -1,0 +1,28 @@
+"
+Tests for the Pharo 13 surface restored on Pharo 12.
+"
+Class {
+	#name : 'PharoCompatibilityP13SurfacePharo12Test',
+	#superclass : 'PharoCompatibilityP13SurfaceTest',
+	#category : 'PharoCompatibility-Pharo13Surface-Pharo12-Tests-Tests',
+	#package : 'PharoCompatibility-Pharo13Surface-Pharo12-Tests',
+	#tag : 'Tests'
+}
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testInstallPharo13SurfacePreservesP13Globals [
+
+	self assertPharo13SurfacePreservesP13Globals
+]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testInstallPharo13SurfaceProvidesLegacyFileStreamBinding [
+
+	self assertPharo13SurfaceProvidesLegacyFileStreamBinding
+]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testInstallPharo13SurfaceProvidesMillisecondSemaphoreTimeout [
+
+	self assertPharo13SurfaceProvidesMillisecondSemaphoreTimeout
+]

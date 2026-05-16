@@ -27,31 +27,49 @@ BaselineOfPharoCompatibility >> baseline: spec [
 		spec
 			package: 'PharoCompatibility-Pharo13Surface-Pharo11'
 			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
-			package: 'PharoCompatibility-Tests'
+			package: 'PharoCompatibility-Pharo13Surface-Pharo11-Tests'
 			with: [
-				spec requires: #( 'PharoCompatibility-Pharo13Surface-Pharo11' ) ];
+				spec requires:
+					#( 'PharoCompatibility-Tests'
+					   'PharoCompatibility-Pharo13Surface-Pharo11' ) ];
 			group: 'Pharo13Surface'
-			with: #( 'PharoCompatibility-Pharo13Surface-Pharo11' ) ].
+			with: #( 'PharoCompatibility-Pharo13Surface-Pharo11' );
+			group: 'Tests'
+			with:
+				#( 'PharoCompatibility-Tests'
+				   'PharoCompatibility-Pharo13Surface-Pharo11-Tests' ) ].
 
 	spec for: #'pharo12.x' do: [
 		spec
 			package: 'PharoCompatibility-Pharo13Surface-Pharo12'
 			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
-			package: 'PharoCompatibility-Tests'
+			package: 'PharoCompatibility-Pharo13Surface-Pharo12-Tests'
 			with: [
-				spec requires: #( 'PharoCompatibility-Pharo13Surface-Pharo12' ) ];
+				spec requires:
+					#( 'PharoCompatibility-Tests'
+					   'PharoCompatibility-Pharo13Surface-Pharo12' ) ];
 			group: 'Pharo13Surface'
-			with: #( 'PharoCompatibility-Pharo13Surface-Pharo12' ) ].
+			with: #( 'PharoCompatibility-Pharo13Surface-Pharo12' );
+			group: 'Tests'
+			with:
+				#( 'PharoCompatibility-Tests'
+				   'PharoCompatibility-Pharo13Surface-Pharo12-Tests' ) ].
 
 	spec for: (self pharoVersionsFrom: 13) do: [
 		spec
 			package: 'PharoCompatibility-Pharo12Surface-Pharo13'
 			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
-			package: 'PharoCompatibility-Tests'
+			package: 'PharoCompatibility-Pharo12Surface-Pharo13-Tests'
 			with: [
-				spec requires: #( 'PharoCompatibility-Pharo12Surface-Pharo13' ) ];
+				spec requires:
+					#( 'PharoCompatibility-Tests'
+					   'PharoCompatibility-Pharo12Surface-Pharo13' ) ];
 			group: 'Pharo12Surface'
-			with: #( 'PharoCompatibility-Pharo12Surface-Pharo13' ) ]
+			with: #( 'PharoCompatibility-Pharo12Surface-Pharo13' );
+			group: 'Tests'
+			with:
+				#( 'PharoCompatibility-Tests'
+				   'PharoCompatibility-Pharo12Surface-Pharo13-Tests' ) ]
 ]
 
 { #category : 'actions' }
