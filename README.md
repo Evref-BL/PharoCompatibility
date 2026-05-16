@@ -10,7 +10,42 @@ The current surface helps code written against Pharo 12 load on Pharo 13 or newe
 
 ## Installation
 
-Load the default group with Metacello:
+PharoCompatibility is usually useful as a dependency of another project.
+
+To add the Pharo 12 compatibility surface to your baseline:
+
+```smalltalk
+spec
+  baseline: 'PharoCompatibility'
+  with: [
+    spec
+      repository: 'github://Evref-BL/PharoCompatibility:main/src';
+      loads: #( 'Pharo12Surface' ) ]
+```
+
+Then require it from packages that use the compatibility API:
+
+```smalltalk
+spec
+  package: 'MyProject-Core'
+  with: [ spec requires: #( 'PharoCompatibility' ) ]
+```
+
+The `Pharo12Surface` group loads the core package on Pharo 12 and also loads the Pharo 13 compatibility surface package on Pharo 13 or newer.
+
+If you only need the core helper API, omit the `loads:` line:
+
+```smalltalk
+spec
+  baseline: 'PharoCompatibility'
+  with: [
+    spec repository:
+      'github://Evref-BL/PharoCompatibility:main/src' ]
+```
+
+You can replace `main` with another branch or a release tag.
+
+To load the project directly into a Pharo image:
 
 ```smalltalk
 Metacello new
@@ -19,7 +54,7 @@ Metacello new
   load
 ```
 
-Load the Pharo 12 compatibility surface when a project still expects those APIs:
+Load the Pharo 12 compatibility surface directly when a project still expects those APIs:
 
 ```smalltalk
 Metacello new
