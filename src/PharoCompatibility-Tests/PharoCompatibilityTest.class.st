@@ -40,6 +40,17 @@ PharoCompatibilityTest >> testInstallPharo12SurfacePreservesMissingGlobals [
 ]
 
 { #category : 'tests' }
+PharoCompatibilityTest >> testInstallPharo13SurfacePreservesP13Globals [
+
+	PharoCompatibility installPharo13Surface.
+	self assert: (Smalltalk includesKey: #OCSyntaxErrorNotice).
+	self assert:
+		(Smalltalk includesKey: #RePullUpInstanceVariableRefactoring).
+	self assert:
+		(SyntaxErrorNotification new isKindOf: OCSyntaxErrorNotice)
+]
+
+{ #category : 'tests' }
 PharoCompatibilityTest >> testResumeDeprecationsDuringReturnsBlockValue [
 
 	self

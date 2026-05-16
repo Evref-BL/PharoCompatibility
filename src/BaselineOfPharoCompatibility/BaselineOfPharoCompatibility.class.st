@@ -20,7 +20,18 @@ BaselineOfPharoCompatibility >> baseline: spec [
 			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
 			group: 'default' with: #( 'PharoCompatibility-Core' );
 			group: 'Pharo12Surface' with: #( 'PharoCompatibility-Core' );
+			group: 'Pharo13Surface' with: #( 'PharoCompatibility-Core' );
 			group: 'Tests' with: #( 'PharoCompatibility-Tests' ) ].
+
+	spec for: #'pharo12.x' do: [
+		spec
+			package: 'PharoCompatibility-Pharo13Surface-Pharo12'
+			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
+			package: 'PharoCompatibility-Tests'
+			with: [
+				spec requires: #( 'PharoCompatibility-Pharo13Surface-Pharo12' ) ];
+			group: 'Pharo13Surface'
+			with: #( 'PharoCompatibility-Pharo13Surface-Pharo12' ) ].
 
 	spec for: (self pharoVersionsFrom: 13) do: [
 		spec

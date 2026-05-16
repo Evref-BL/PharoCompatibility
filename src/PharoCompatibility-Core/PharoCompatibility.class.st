@@ -41,10 +41,10 @@ PharoCompatibility class >> installAuthorCompatibility [
 PharoCompatibility class >> installLoadedSurfaces [
 
 	| surfaceClass |
-	surfaceClass := Smalltalk
-		                at: #PharoCompatibilityP12Surface
-		                ifAbsent: [ nil ].
-	surfaceClass ifNotNil: [ surfaceClass install ]
+	#( PharoCompatibilityP12Surface PharoCompatibilityP13Surface ) do: [
+		:surfaceClassName |
+		surfaceClass := Smalltalk at: surfaceClassName ifAbsent: [ nil ].
+		surfaceClass ifNotNil: [ surfaceClass install ] ]
 ]
 
 { #category : 'private' }
@@ -74,6 +74,17 @@ PharoCompatibility class >> installPharo12Surface [
 	self installAuthorCompatibility
 ]
 
+{ #category : 'installing' }
+PharoCompatibility class >> installPharo13Surface [
+
+	self
+		installMissingGlobalNamed: #OCSyntaxErrorNotice
+		from: #( SyntaxErrorNotification RBSyntaxErrorNotice ).
+	self
+		installMissingGlobalNamed: #RePullUpInstanceVariableRefactoring
+		from: #( RBPullUpInstanceVariableRefactoring )
+]
+
 { #category : 'testing' }
 PharoCompatibility class >> isPharo13OrLater [
 
@@ -83,10 +94,12 @@ PharoCompatibility class >> isPharo13OrLater [
 { #category : 'accessing' }
 PharoCompatibility class >> loadedSurfaces [
 
-	| surfaces |
+	| surfaceClass surfaces |
 	surfaces := OrderedCollection new.
-	(Smalltalk includesKey: #PharoCompatibilityP12Surface) ifTrue: [
-		surfaces add: #Pharo12Surface ].
+	#( PharoCompatibilityP12Surface PharoCompatibilityP13Surface ) do: [
+		:surfaceClassName |
+		surfaceClass := Smalltalk at: surfaceClassName ifAbsent: [ nil ].
+		surfaceClass ifNotNil: [ surfaces add: surfaceClass surfaceName ] ].
 	^ surfaces asArray
 ]
 
@@ -111,8 +124,12 @@ PharoCompatibility class >> runtimeVersionString [
 PharoCompatibility class >> syntaxErrorNoticeClassName [
 
 	| syntaxErrorClass |
+	(Smalltalk at: #OCSyntaxErrorNotice ifAbsent: [ nil ]) ifNotNil: [
+		:ocSyntaxErrorClass |
+		ocSyntaxErrorClass name = #OCSyntaxErrorNotice ifTrue: [
+			^ ocSyntaxErrorClass name asString ] ].
 	syntaxErrorClass := self firstExistingGlobalFrom:
-		                    #( OCSyntaxErrorNotice RBSyntaxErrorNotice
+		                    #( RBSyntaxErrorNotice OCSyntaxErrorNotice
 		                       SyntaxErrorNotification ).
 	^ syntaxErrorClass
 		  ifNil: [ 'SyntaxErrorNotification' ]
