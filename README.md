@@ -1,4 +1,4 @@
-[![Pharo version](https://img.shields.io/badge/Pharo-12%20%7C%2013-%23aac9ff.svg)](https://github.com/pharo-project/Pharo)
+[![Pharo version](https://img.shields.io/badge/Pharo-11%20%7C%2012%20%7C%2013-%23aac9ff.svg)](https://github.com/pharo-project/Pharo)
 ![Build Info](https://github.com/Evref-BL/PharoCompatibility/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/Evref-BL/PharoCompatibility/badge.svg?branch=main)](https://coveralls.io/github/Evref-BL/PharoCompatibility?branch=main)
 
@@ -6,7 +6,7 @@
 
 PharoCompatibility is a small compatibility surface library for Pharo projects that need to keep running while APIs move between Pharo versions.
 
-The current surfaces help code written against Pharo 12 load on Pharo 13 or newer, and help code developed against the Pharo 13 surface remain loadable on Pharo 12 where equivalent APIs can be restored.
+The current surfaces help code written against Pharo 12 load on Pharo 13 or newer, and help code developed against the Pharo 13 surface remain loadable on Pharo 11 and 12 where equivalent APIs can be restored.
 
 ## Installation
 
@@ -33,14 +33,14 @@ spec
 
 The `Pharo12Surface` group loads the core package on Pharo 12 and also loads the Pharo 13 compatibility surface package on Pharo 13 or newer.
 
-To develop against the Pharo 13 surface while keeping a project loadable on Pharo 12, load `Pharo13Surface` instead:
+To develop against the Pharo 13 surface while keeping a project loadable on Pharo 11 and 12, load `Pharo13Surface` instead:
 
 ```smalltalk
 spec
   baseline: 'PharoCompatibility'
   with: [
     spec
-      repository: 'github://Evref-BL/PharoCompatibility:develop/src';
+      repository: 'github://Evref-BL/PharoCompatibility:main/src';
       loads: #( 'Pharo13Surface' ) ]
 ```
 
@@ -89,6 +89,10 @@ You can also install the surface explicitly from code:
 PharoCompatibility installPharo12Surface
 ```
 
+## Design Notes
+
+- [Class installer facade plan](docs/class-installer-facade-plan.md)
+
 ## Usage
 
 Use the helpers when writing code that should stay quiet across supported Pharo versions:
@@ -112,9 +116,10 @@ Run the tests from a loaded image:
 PharoCompatibilityTest suite run
 ```
 
-The repository also includes a smalltalkCI configuration. CI runs the test package on Pharo 12 and Pharo 13:
+The repository also includes a smalltalkCI configuration. CI runs the test package on Pharo 11, Pharo 12, and Pharo 13:
 
 ```sh
+smalltalkci -s Pharo64-11
 smalltalkci -s Pharo64-12
 smalltalkci -s Pharo64-13
 ```

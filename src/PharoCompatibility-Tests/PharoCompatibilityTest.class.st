@@ -42,12 +42,30 @@ PharoCompatibilityTest >> testInstallPharo12SurfacePreservesMissingGlobals [
 { #category : 'tests' }
 PharoCompatibilityTest >> testInstallPharo13SurfacePreservesP13Globals [
 
+	| ocSyntaxErrorNoticeClass syntaxErrorNotificationClass |
 	PharoCompatibility installPharo13Surface.
 	self assert: (Smalltalk includesKey: #OCSyntaxErrorNotice).
 	self assert:
 		(Smalltalk includesKey: #RePullUpInstanceVariableRefactoring).
+	ocSyntaxErrorNoticeClass := Smalltalk at: #OCSyntaxErrorNotice.
+	syntaxErrorNotificationClass := Smalltalk at: #SyntaxErrorNotification.
 	self assert:
-		(SyntaxErrorNotification new isKindOf: OCSyntaxErrorNotice)
+		(syntaxErrorNotificationClass new isKindOf: ocSyntaxErrorNoticeClass)
+]
+
+{ #category : 'tests' }
+PharoCompatibilityTest >> testInstallPharo13SurfaceProvidesLegacyFileStreamBinding [
+
+	SystemVersion current major >= 13 ifTrue: [ ^ self ].
+	PharoCompatibility installPharo13Surface.
+	self assert: (Smalltalk includesKey: #FileStream)
+]
+
+{ #category : 'tests' }
+PharoCompatibilityTest >> testInstallPharo13SurfaceProvidesMillisecondSemaphoreTimeout [
+
+	self assert: (Semaphore new respondsTo: #waitTimeoutMilliseconds:).
+	self assert: (Semaphore new waitTimeoutMilliseconds: 1)
 ]
 
 { #category : 'tests' }

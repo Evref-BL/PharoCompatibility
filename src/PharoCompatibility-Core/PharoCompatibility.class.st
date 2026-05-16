@@ -82,7 +82,10 @@ PharoCompatibility class >> installPharo13Surface [
 		from: #( SyntaxErrorNotification RBSyntaxErrorNotice ).
 	self
 		installMissingGlobalNamed: #RePullUpInstanceVariableRefactoring
-		from: #( RBPullUpInstanceVariableRefactoring )
+		from: #( RBPullUpInstanceVariableRefactoring ).
+	self
+		installMissingGlobalNamed: #FileStream
+		from: #( Stdio )
 ]
 
 { #category : 'testing' }
