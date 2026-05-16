@@ -89,10 +89,6 @@ You can also install the surface explicitly from code:
 PharoCompatibility installPharo12Surface
 ```
 
-## Design Notes
-
-- [Class installer facade plan](docs/class-installer-facade-plan.md)
-
 ## Usage
 
 Use the helpers when writing code that should stay quiet across supported Pharo versions:

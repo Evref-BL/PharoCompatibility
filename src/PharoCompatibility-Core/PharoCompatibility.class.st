@@ -41,7 +41,8 @@ PharoCompatibility class >> installAuthorCompatibility [
 PharoCompatibility class >> installLoadedSurfaces [
 
 	| surfaceClass |
-	#( PharoCompatibilityP12Surface PharoCompatibilityP13Surface ) do: [
+	#( PharoCompatibilityP12Surface PharoCompatibilityP13Surface
+	   PharoCompatibilityP13SurfacePharo11 ) do: [
 		:surfaceClassName |
 		surfaceClass := Smalltalk at: surfaceClassName ifAbsent: [ nil ].
 		surfaceClass ifNotNil: [ surfaceClass install ] ]
@@ -99,7 +100,8 @@ PharoCompatibility class >> loadedSurfaces [
 
 	| surfaceClass surfaces |
 	surfaces := OrderedCollection new.
-	#( PharoCompatibilityP12Surface PharoCompatibilityP13Surface ) do: [
+	#( PharoCompatibilityP12Surface PharoCompatibilityP13Surface
+	   PharoCompatibilityP13SurfacePharo11 ) do: [
 		:surfaceClassName |
 		surfaceClass := Smalltalk at: surfaceClassName ifAbsent: [ nil ].
 		surfaceClass ifNotNil: [ surfaces add: surfaceClass surfaceName ] ].
