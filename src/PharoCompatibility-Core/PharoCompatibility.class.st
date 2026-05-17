@@ -15,6 +15,19 @@ PharoCompatibility class >> currentMajorVersion [
 	^ SystemVersion current major
 ]
 
+{ #category : 'errors' }
+PharoCompatibility class >> compilationAstFromException: anError [
+
+	| compilationResult |
+	(anError respondsTo: #compilationResult) ifFalse: [ ^ nil ].
+	compilationResult := anError compilationResult.
+	(compilationResult respondsTo: #ast) ifTrue: [
+		^ compilationResult ast ].
+	^ [ compilationResult instVarNamed: 'ast' ]
+		  on: Error
+		  do: [ :ignored | nil ]
+]
+
 { #category : 'private' }
 PharoCompatibility class >> firstExistingGlobalFrom: globalNames [
 
@@ -59,6 +72,29 @@ PharoCompatibility class >> installMissingGlobalNamed: missingGlobalName from: r
 	^ replacement
 ]
 
+{ #category : 'errors' }
+PharoCompatibility class >> noticeFromException: anError ifKindOfAnyNamed: classNames [
+
+	| candidate |
+	candidate := anError.
+	(anError respondsTo: #notice) ifTrue: [
+		anError notice ifNotNil: [ :notice | candidate := notice ] ].
+	^ (self object: candidate isKindOfAnyClassNamed: classNames)
+		  ifTrue: [ candidate ]
+		  ifFalse: [ nil ]
+]
+
+{ #category : 'private' }
+PharoCompatibility class >> object: anObject isKindOfAnyClassNamed: classNames [
+
+	classNames do: [ :className |
+		| class |
+		class := Smalltalk at: className ifAbsent: [ nil ].
+		(class notNil and: [ anObject isKindOf: class ]) ifTrue: [
+			^ true ] ].
+	^ false
+]
+
 { #category : 'installing' }
 PharoCompatibility class >> installPharo12Surface [
 
@@ -85,7 +121,10 @@ PharoCompatibility class >> installPharo13Surface [
 		from: #( RBPullUpInstanceVariableRefactoring ).
 	self
 		installMissingGlobalNamed: #FileStream
-		from: #( Stdio )
+		from: #( Stdio ).
+	self
+		installMissingGlobalNamed: #IceBranchAlreadyExists
+		from: #( IceBranchAlreadyExistsError )
 ]
 
 { #category : 'testing' }
@@ -137,6 +176,38 @@ PharoCompatibility class >> syntaxErrorNoticeClassName [
 	^ syntaxErrorClass
 		  ifNil: [ 'SyntaxErrorNotification' ]
 		  ifNotNil: [ syntaxErrorClass name asString ]
+]
+
+{ #category : 'errors' }
+PharoCompatibility class >> syntaxNoticeFromException: anError [
+
+	^ self
+		  noticeFromException: anError
+		  ifKindOfAnyNamed:
+		  { self syntaxErrorNoticeClassName asSymbol }
+]
+
+{ #category : 'errors' }
+PharoCompatibility class >> undeclaredVariableNodeFromException: anError [
+
+	| ast notice |
+	notice := self
+		          noticeFromException: anError
+		          ifKindOfAnyNamed:
+		          #( OCUndeclaredVariableNotice OCUndeclaredVariableWarning ).
+	(notice notNil and: [ notice respondsTo: #node ]) ifTrue: [
+		^ notice node ].
+	ast := self compilationAstFromException: anError.
+	(ast notNil and: [ ast respondsTo: #variableNodes ]) ifFalse: [
+		^ nil ].
+	^ ast variableNodes
+		  detect: [ :node |
+			  | variable |
+			  variable := node variable.
+			  variable notNil and: [
+				  (variable respondsTo: #isUndeclaredVariable) and: [
+					  variable isUndeclaredVariable ] ] ]
+		  ifNone: [ nil ]
 ]
 
 { #category : 'authoring' }

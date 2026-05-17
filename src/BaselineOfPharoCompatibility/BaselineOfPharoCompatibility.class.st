@@ -39,6 +39,22 @@ BaselineOfPharoCompatibility >> baseline: spec [
 				#( 'PharoCompatibility-Tests'
 				   'PharoCompatibility-Pharo13Surface-Pharo12-Tests' ) ].
 
+	spec for: #'pharo14.x' do: [
+		spec
+			package: 'PharoCompatibility-Pharo13Surface-Pharo14'
+			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
+			package: 'PharoCompatibility-Pharo13Surface-Pharo14-Tests'
+			with: [
+				spec requires:
+					#( 'PharoCompatibility-Tests'
+					   'PharoCompatibility-Pharo13Surface-Pharo14' ) ];
+			group: 'Pharo13Surface'
+			with: #( 'PharoCompatibility-Pharo13Surface-Pharo14' );
+			group: 'Tests'
+			with:
+				#( 'PharoCompatibility-Tests'
+				   'PharoCompatibility-Pharo13Surface-Pharo14-Tests' ) ].
+
 	spec for: (self pharoVersionsFrom: 13) do: [
 		spec
 			package: 'PharoCompatibility-Pharo12Surface-Pharo13'

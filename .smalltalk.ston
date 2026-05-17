@@ -11,7 +11,8 @@ SmalltalkCISpec {
     #packages : [
       'PharoCompatibility-Tests',
       'PharoCompatibility-Pharo12Surface-Pharo13-Tests',
-      'PharoCompatibility-Pharo13Surface-Pharo12-Tests'
+      'PharoCompatibility-Pharo13Surface-Pharo12-Tests',
+      'PharoCompatibility-Pharo13Surface-Pharo14-Tests'
     ],
     #coverage : {
       #packages : [ 'PharoCompatibility-Core' ],
