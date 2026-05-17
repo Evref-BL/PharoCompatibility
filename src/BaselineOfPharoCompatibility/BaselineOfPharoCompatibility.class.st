@@ -23,22 +23,6 @@ BaselineOfPharoCompatibility >> baseline: spec [
 			group: 'Pharo13Surface' with: #( 'PharoCompatibility-Core' );
 			group: 'Tests' with: #( 'PharoCompatibility-Tests' ) ].
 
-	spec for: #'pharo11.x' do: [
-		spec
-			package: 'PharoCompatibility-Pharo13Surface-Pharo11'
-			with: [ spec requires: #( 'PharoCompatibility-Core' ) ];
-			package: 'PharoCompatibility-Pharo13Surface-Pharo11-Tests'
-			with: [
-				spec requires:
-					#( 'PharoCompatibility-Tests'
-					   'PharoCompatibility-Pharo13Surface-Pharo11' ) ];
-			group: 'Pharo13Surface'
-			with: #( 'PharoCompatibility-Pharo13Surface-Pharo11' );
-			group: 'Tests'
-			with:
-				#( 'PharoCompatibility-Tests'
-				   'PharoCompatibility-Pharo13Surface-Pharo11-Tests' ) ].
-
 	spec for: #'pharo12.x' do: [
 		spec
 			package: 'PharoCompatibility-Pharo13Surface-Pharo12'
