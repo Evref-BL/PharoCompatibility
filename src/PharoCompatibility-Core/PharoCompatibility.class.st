@@ -85,6 +85,21 @@ PharoCompatibility class >> installPharo13Surface [
 		installMissingGlobalNamed: #RePullUpInstanceVariableRefactoring
 		from: #( RBPullUpInstanceVariableRefactoring ).
 	self
+		installMissingGlobalNamed: #PackageOrganizer
+		from: #( RPackageOrganizer ).
+	self
+		installMissingGlobalNamed: #ReRemoveClassRefactoring
+		from: #( RBRemoveClassRefactoring ).
+	self
+		installMissingGlobalNamed: #ReRemoveInstanceVariableRefactoring
+		from: #( RBRemoveInstanceVariableRefactoring ).
+	self
+		installMissingGlobalNamed: #ReRenameClassRefactoring
+		from: #( RBRenameClassRefactoring ).
+	self
+		installMissingGlobalNamed: #ReRenameMethodRefactoring
+		from: #( RBRenameMethodRefactoring ).
+	self
 		installMissingGlobalNamed: #FileStream
 		from: #( Stdio )
 ]
@@ -117,6 +132,19 @@ PharoCompatibility class >> resumeDeprecationsDuring: aBlock [
 	^ [ aBlock value ]
 		  on: deprecationClass
 		  do: [ :deprecation | deprecation resume ]
+]
+
+{ #category : 'errors' }
+PharoCompatibility class >> resumeCompilerWarningsDuring: aBlock [
+
+	| shadowVariableWarningClass |
+	shadowVariableWarningClass := Smalltalk
+		                              at: #OCShadowVariableWarning
+		                              ifAbsent: [ nil ].
+	shadowVariableWarningClass ifNil: [ ^ aBlock value ].
+	^ [ aBlock value ]
+		  on: shadowVariableWarningClass
+		  do: [ :warning | warning resume ]
 ]
 
 { #category : 'accessing' }

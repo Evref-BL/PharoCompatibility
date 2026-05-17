@@ -18,6 +18,14 @@ PharoCompatibilityTest >> testResumeDeprecationsDuringReturnsBlockValue [
 ]
 
 { #category : 'tests' }
+PharoCompatibilityTest >> testResumeCompilerWarningsDuringReturnsBlockValue [
+
+	self
+		assert: (PharoCompatibility resumeCompilerWarningsDuring: [ 42 ])
+		equals: 42
+]
+
+{ #category : 'tests' }
 PharoCompatibilityTest >> testSyntaxErrorNoticeClassNameIsConcrete [
 
 	self assert: PharoCompatibility syntaxErrorNoticeClassName isString.
