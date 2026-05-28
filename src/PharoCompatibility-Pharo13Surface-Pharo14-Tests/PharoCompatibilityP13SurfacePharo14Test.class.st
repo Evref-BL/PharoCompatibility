@@ -88,6 +88,15 @@ PharoCompatibilityP13SurfacePharo14Test >> testMoveClassRefactoringUsesTheClassB
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testPharo13ContextTempNamesSelector [
+
+	| names temporaryValue |
+	temporaryValue := 42.
+	names := thisContext tempNames collect: [ :each | each asString ].
+	self assert: (names includes: 'temporaryValue')
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo14Test >> testUndeclaredVariableNodeFromCompilationError [
 
 	| node |
