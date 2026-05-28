@@ -187,14 +187,6 @@ PharoCompatibility class >> syntaxNoticeFromException: anError [
 		  { self syntaxErrorNoticeClassName asSymbol }
 ]
 
-{ #category : 'compatibility' }
-PharoCompatibility class >> temporaryNamesForContext: aContext [
-
-	^ aContext perform: (self currentMajorVersion >= 14
-			   ifTrue: [ #temporaryVariableNames ]
-			   ifFalse: [ #tempNames ])
-]
-
 { #category : 'errors' }
 PharoCompatibility class >> undeclaredVariableNodeFromException: anError [
 

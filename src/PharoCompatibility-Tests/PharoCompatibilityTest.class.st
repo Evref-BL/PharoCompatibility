@@ -23,14 +23,3 @@ PharoCompatibilityTest >> testSyntaxErrorNoticeClassNameIsConcrete [
 	self assert: PharoCompatibility syntaxErrorNoticeClassName isString.
 	self deny: PharoCompatibility syntaxErrorNoticeClassName isEmpty
 ]
-
-{ #category : 'tests' }
-PharoCompatibilityTest >> testTemporaryNamesForContextReturnsContextTemporaryNames [
-
-	| names temporaryValue |
-	temporaryValue := 42.
-	names := PharoCompatibility temporaryNamesForContext: thisContext.
-	self assert:
-		((names collect: [ :each | each asString ]) includes:
-			 'temporaryValue')
-]
