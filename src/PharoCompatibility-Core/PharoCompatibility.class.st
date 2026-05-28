@@ -9,12 +9,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'accessing' }
-PharoCompatibility class >> currentMajorVersion [
-
-	^ SystemVersion current major
-]
-
 { #category : 'errors' }
 PharoCompatibility class >> compilationAstFromException: anError [
 
@@ -26,6 +20,12 @@ PharoCompatibility class >> compilationAstFromException: anError [
 	^ [ compilationResult instVarNamed: 'ast' ]
 		  on: Error
 		  do: [ :ignored | nil ]
+]
+
+{ #category : 'accessing' }
+PharoCompatibility class >> currentMajorVersion [
+
+	^ SystemVersion current major
 ]
 
 { #category : 'private' }
@@ -70,29 +70,6 @@ PharoCompatibility class >> installMissingGlobalNamed: missingGlobalName from: r
 	replacement ifNil: [ ^ nil ].
 	Smalltalk at: missingGlobalName put: replacement.
 	^ replacement
-]
-
-{ #category : 'errors' }
-PharoCompatibility class >> noticeFromException: anError ifKindOfAnyNamed: classNames [
-
-	| candidate |
-	candidate := anError.
-	(anError respondsTo: #notice) ifTrue: [
-		anError notice ifNotNil: [ :notice | candidate := notice ] ].
-	^ (self object: candidate isKindOfAnyClassNamed: classNames)
-		  ifTrue: [ candidate ]
-		  ifFalse: [ nil ]
-]
-
-{ #category : 'private' }
-PharoCompatibility class >> object: anObject isKindOfAnyClassNamed: classNames [
-
-	classNames do: [ :className |
-		| class |
-		class := Smalltalk at: className ifAbsent: [ nil ].
-		(class notNil and: [ anObject isKindOf: class ]) ifTrue: [
-			^ true ] ].
-	^ false
 ]
 
 { #category : 'installing' }
@@ -146,6 +123,29 @@ PharoCompatibility class >> loadedSurfaces [
 ]
 
 { #category : 'errors' }
+PharoCompatibility class >> noticeFromException: anError ifKindOfAnyNamed: classNames [
+
+	| candidate |
+	candidate := anError.
+	(anError respondsTo: #notice) ifTrue: [
+		anError notice ifNotNil: [ :notice | candidate := notice ] ].
+	^ (self object: candidate isKindOfAnyClassNamed: classNames)
+		  ifTrue: [ candidate ]
+		  ifFalse: [ nil ]
+]
+
+{ #category : 'private' }
+PharoCompatibility class >> object: anObject isKindOfAnyClassNamed: classNames [
+
+	classNames do: [ :className |
+		| class |
+		class := Smalltalk at: className ifAbsent: [ nil ].
+		(class notNil and: [ anObject isKindOf: class ]) ifTrue: [
+			^ true ] ].
+	^ false
+]
+
+{ #category : 'errors' }
 PharoCompatibility class >> resumeDeprecationsDuring: aBlock [
 
 	| deprecationClass |
@@ -185,6 +185,14 @@ PharoCompatibility class >> syntaxNoticeFromException: anError [
 		  noticeFromException: anError
 		  ifKindOfAnyNamed:
 		  { self syntaxErrorNoticeClassName asSymbol }
+]
+
+{ #category : 'compatibility' }
+PharoCompatibility class >> temporaryNamesForContext: aContext [
+
+	^ aContext perform: (self currentMajorVersion >= 14
+			   ifTrue: [ #temporaryVariableNames ]
+			   ifFalse: [ #tempNames ])
 ]
 
 { #category : 'errors' }
