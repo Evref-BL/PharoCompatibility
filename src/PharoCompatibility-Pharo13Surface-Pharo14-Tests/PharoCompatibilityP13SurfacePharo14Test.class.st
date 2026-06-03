@@ -42,6 +42,21 @@ PharoCompatibilityP13SurfacePharo14Test >> testInstallPharo13SurfaceProvidesLega
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testInstallPharo13SurfaceProvidesMonticelloEpiceaEvents [
+
+	| loadEvent saveEvent |
+	PharoCompatibility installPharo13Surface.
+	self assert: (Smalltalk includesKey: #EpMonticelloVersionSave).
+	self assert: (Smalltalk includesKey: #EpMonticelloVersionsLoad).
+	saveEvent := EpMonticelloVersionSave versionName: 'Example-Core.42' repositoryDescription: 'repository'.
+	loadEvent := EpMonticelloVersionsLoad versionNames: #( 'Example-Core.42' 'Example-Spec.7' ).
+	self assert: saveEvent isMonticelloVersionSave.
+	self assert: loadEvent isMonticelloVersionsLoad.
+	self assert: saveEvent affectedPackageName equals: 'Example'.
+	self assert: loadEvent affectedPackageName equals: 'Example'
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo14Test >> testMetacelloRegistryUnderstandsRegistrationForClassNamed [
 
 	| registration |

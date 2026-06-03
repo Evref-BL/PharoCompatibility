@@ -85,6 +85,7 @@ The Pharo 13 surface currently provides:
 - `RePullUpInstanceVariableRefactoring` mapped to the available pull-up refactoring class.
 - `FileStream` mapped to the available standard I/O class when needed.
 - `IceBranchAlreadyExists` mapped to `IceBranchAlreadyExistsError` when needed.
+- `EpMonticelloVersionSave` and `EpMonticelloVersionsLoad` on Pharo 14.
 - `MetacelloProjectRegistry>>registrationForClassNamed:ifAbsent:` on Pharo 14.
 - A Pharo 13-compatible `ReClassRepackagingChange>>generateChanges` behavior on Pharo 14.
 
