@@ -97,6 +97,12 @@ PharoCompatibilityP13SurfacePharo14Test >> testPharo13ContextTempNamesSelector [
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testRefactoringChangeManagerClass [
+
+	self assert: PharoCompatibility refactoringChangeManagerClass equals: ReChangeManager
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo14Test >> testUndeclaredVariableNodeFromCompilationError [
 
 	| node |

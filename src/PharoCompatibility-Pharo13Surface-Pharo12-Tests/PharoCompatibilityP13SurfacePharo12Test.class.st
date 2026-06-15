@@ -26,3 +26,11 @@ PharoCompatibilityP13SurfacePharo12Test >> testInstallPharo13SurfaceProvidesMill
 
 	self assertPharo13SurfaceProvidesMillisecondSemaphoreTimeout
 ]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testRefactoringChangeManagerClass [
+
+	self
+		assert: PharoCompatibility refactoringChangeManagerClass
+		equals: RBRefactoryChangeManager
+]
