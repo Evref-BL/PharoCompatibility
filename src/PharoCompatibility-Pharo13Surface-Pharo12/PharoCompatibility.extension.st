@@ -22,7 +22,7 @@ PharoCompatibility class >> refactoringChangeManagerClass [
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo12' }
 PharoCompatibility class >> syntaxErrorNoticeClassName [
 
-	^ 'RBSyntaxErrorNotice'
+	^ #RBSyntaxErrorNotice
 ]
 
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo12' }

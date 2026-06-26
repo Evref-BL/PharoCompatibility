@@ -47,7 +47,7 @@ PharoCompatibilityP13SurfacePharo12Test >> testSyntaxErrorNoticeClassName [
 
 	self
 		assert: PharoCompatibility syntaxErrorNoticeClassName
-		equals: 'RBSyntaxErrorNotice'
+		equals: #RBSyntaxErrorNotice
 ]
 
 { #category : 'tests' }

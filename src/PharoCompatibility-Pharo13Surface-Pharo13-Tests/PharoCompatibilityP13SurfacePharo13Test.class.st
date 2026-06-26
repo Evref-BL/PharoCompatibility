@@ -30,5 +30,5 @@ PharoCompatibilityP13SurfacePharo13Test >> testSyntaxErrorNoticeClassName [
 
 	self
 		assert: PharoCompatibility syntaxErrorNoticeClassName
-		equals: 'OCSyntaxErrorNotice'
+		equals: #OCSyntaxErrorNotice
 ]

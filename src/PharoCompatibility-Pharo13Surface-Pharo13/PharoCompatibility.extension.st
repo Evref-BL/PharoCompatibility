@@ -21,7 +21,7 @@ PharoCompatibility class >> refactoringChangeManagerClass [
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo13' }
 PharoCompatibility class >> syntaxErrorNoticeClassName [
 
-	^ 'OCSyntaxErrorNotice'
+	^ #OCSyntaxErrorNotice
 ]
 
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo13' }
