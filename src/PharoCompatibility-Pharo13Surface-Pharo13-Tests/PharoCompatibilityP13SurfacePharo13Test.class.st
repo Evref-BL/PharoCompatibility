@@ -10,6 +10,14 @@ Class {
 }
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo13Test >> testDebuggerMethodImplementorForSession [
+
+	self
+		assert: (PharoCompatibility debuggerMethodImplementorForSession: nil) class
+		equals: StDebuggerMethodImplementor
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo13Test >> testRefactoringChangeManagerClass [
 
 	self

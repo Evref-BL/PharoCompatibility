@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testDebuggerMethodImplementorForSession [
+
+	self assert:
+		(PharoCompatibility debuggerMethodImplementorForSession: nil) isNil
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo12Test >> testInstallPharo13SurfacePreservesP13Globals [
 
 	self assertPharo13SurfacePreservesP13Globals

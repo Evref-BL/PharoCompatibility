@@ -26,6 +26,14 @@ PharoCompatibilityP13SurfacePharo14Test >> removePackageNamed: aPackageName [
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testDebuggerMethodImplementorForSession [
+
+	self
+		assert: (PharoCompatibility debuggerMethodImplementorForSession: nil) class
+		equals: StDebuggerMethodImplementor
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo14Test >> testInstallPharo13SurfacePreservesP13Globals [
 
 	self assertPharo13SurfacePreservesP13Globals
