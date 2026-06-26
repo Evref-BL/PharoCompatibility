@@ -3,7 +3,7 @@ Extension { #name : 'PharoCompatibility' }
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo14' }
 PharoCompatibility class >> compilationAstFromException: anError [
 
-	^ anError compilationResult ast
+	^ anError pharoCompatibilityCompilationAst
 ]
 
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo14' }
@@ -27,14 +27,13 @@ PharoCompatibility class >> syntaxErrorNoticeClassName [
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo14' }
 PharoCompatibility class >> syntaxNoticeFromException: anError [
 
-	^ nil
+	^ anError pharoCompatibilitySyntaxNotice
 ]
 
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo14' }
 PharoCompatibility class >> undeclaredVariableNodeFromException: anError [
 
-	^ self undeclaredVariableNodeInAst:
-		(anError compilationResult ast)
+	^ anError pharoCompatibilityUndeclaredVariableNode
 ]
 
 { #category : '*PharoCompatibility-Pharo13Surface-Pharo14' }

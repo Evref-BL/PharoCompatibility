@@ -41,3 +41,13 @@ PharoCompatibilityP13SurfaceTest >> assertPharo13SurfaceProvidesMillisecondSemap
 
 	self assert: (Semaphore new waitTimeoutMilliseconds: 1)
 ]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfaceTest >> testCompilerExceptionHelpersIgnoreOrdinaryExceptions [
+
+	| exception |
+	exception := MessageNotUnderstood new.
+	self assert: (PharoCompatibility syntaxNoticeFromException: exception) isNil.
+	self assert: (PharoCompatibility undeclaredVariableNodeFromException: exception) isNil.
+	self assert: (PharoCompatibility compilationAstFromException: exception) isNil
+]
