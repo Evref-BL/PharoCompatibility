@@ -41,3 +41,28 @@ PharoCompatibilityP13SurfacePharo12Test >> testRefactoringChangeManagerClass [
 		assert: PharoCompatibility refactoringChangeManagerClass
 		equals: RBRefactoryChangeManager
 ]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testSyntaxErrorNoticeClassName [
+
+	self
+		assert: PharoCompatibility syntaxErrorNoticeClassName
+		equals: #RBSyntaxErrorNotice
+]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testWithNonInteractiveAuthorUsesAuthorWhenNoAuthorIsConfigured [
+
+	| observedFullName |
+	Author useAuthor: '' during: [
+		self
+			assert:
+				(PharoCompatibility
+					 withNonInteractiveAuthorNamed: 'MCP'
+					 during: [
+						 observedFullName := Author fullNamePerSe.
+						 42 ])
+			equals: 42.
+		self assert: observedFullName equals: 'MCP'.
+		self assert: Author fullNamePerSe isEmpty ]
+]

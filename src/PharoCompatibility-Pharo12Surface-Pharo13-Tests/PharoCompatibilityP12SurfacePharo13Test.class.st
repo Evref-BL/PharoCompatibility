@@ -12,20 +12,16 @@ Class {
 { #category : 'tests' }
 PharoCompatibilityP12SurfacePharo13Test >> testAuthorCompatibilityProtocol [
 
-	| authorClass observedFullName previousFullName |
+	| observedFullName previousFullName |
 	PharoCompatibility installPharo12Surface.
-	authorClass := Smalltalk at: #Author ifAbsent: [ nil ].
-	self assert: authorClass notNil.
-	self assert: (authorClass respondsTo: #fullNamePerSe).
-	self assert: (authorClass respondsTo: #useAuthor:during:).
-	previousFullName := authorClass fullNamePerSe.
+	previousFullName := PharoCompatibilityAuthor fullNamePerSe.
 	self
-		assert: (authorClass useAuthor: 'MCP' during: [
-				 observedFullName := authorClass fullNamePerSe.
-				 42 ])
+		assert: (PharoCompatibilityAuthor useAuthor: 'MCP' during: [
+			observedFullName := PharoCompatibilityAuthor fullNamePerSe.
+			42 ])
 		equals: 42.
 	self assert: observedFullName equals: 'MCP'.
-	self assert: authorClass fullNamePerSe equals: previousFullName
+	self assert: PharoCompatibilityAuthor fullNamePerSe equals: previousFullName
 ]
 
 { #category : 'tests' }
@@ -37,4 +33,24 @@ PharoCompatibilityP12SurfacePharo13Test >> testInstallPharo12SurfacePreservesMis
 		(Smalltalk includesKey: #RBPullUpInstanceVariableRefactoring).
 	self assert:
 		(Smalltalk includesKey: #RBPushDownInstanceVariableRefactoring)
+]
+
+{ #category : 'tests' }
+PharoCompatibilityP12SurfacePharo13Test >> testWithNonInteractiveAuthorUsesShimWhenNoAuthorIsConfigured [
+
+	| observedFullName previousFullName |
+	PharoCompatibility installPharo12Surface.
+	previousFullName := PharoCompatibilityAuthor fullNamePerSe.
+	PharoCompatibilityAuthor fullName: ''.
+	[
+	self
+		assert: (PharoCompatibility
+				withNonInteractiveAuthorNamed: 'MCP'
+				during: [
+					observedFullName := PharoCompatibilityAuthor fullNamePerSe.
+					42 ])
+		equals: 42.
+	self assert: observedFullName equals: 'MCP'.
+	self assert: PharoCompatibilityAuthor fullNamePerSe isEmpty ]
+		ensure: [ PharoCompatibilityAuthor fullName: previousFullName ]
 ]

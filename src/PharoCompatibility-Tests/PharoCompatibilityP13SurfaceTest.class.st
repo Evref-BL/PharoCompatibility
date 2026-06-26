@@ -39,6 +39,5 @@ PharoCompatibilityP13SurfaceTest >> assertPharo13SurfaceProvidesLegacyFileStream
 { #category : 'asserting' }
 PharoCompatibilityP13SurfaceTest >> assertPharo13SurfaceProvidesMillisecondSemaphoreTimeout [
 
-	self assert: (Semaphore new respondsTo: #waitTimeoutMilliseconds:).
 	self assert: (Semaphore new waitTimeoutMilliseconds: 1)
 ]

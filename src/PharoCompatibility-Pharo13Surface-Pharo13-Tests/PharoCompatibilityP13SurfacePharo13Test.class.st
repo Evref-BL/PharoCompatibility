@@ -24,3 +24,11 @@ PharoCompatibilityP13SurfacePharo13Test >> testRefactoringChangeManagerClass [
 		assert: PharoCompatibility refactoringChangeManagerClass
 		equals: RBRefactoryChangeManager
 ]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo13Test >> testSyntaxErrorNoticeClassName [
+
+	self
+		assert: PharoCompatibility syntaxErrorNoticeClassName
+		equals: #OCSyntaxErrorNotice
+]

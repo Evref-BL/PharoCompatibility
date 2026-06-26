@@ -54,13 +54,9 @@ PharoCompatibilityP13SurfacePharo14Test >> testMetacelloRegistryUnderstandsRegis
 
 	| registration |
 	PharoCompatibility installPharo13Surface.
-	self assert:
-		(MetacelloProjectRegistration registry respondsTo:
-			 #registrationForClassNamed:ifAbsent:).
 	registration := MetacelloProjectRegistration registry
-		                registrationForClassNamed:
-		                'BaselineOfPharoCompatibility'
-		                ifAbsent: [ nil ].
+		registrationForClassNamed: #BaselineOfPharoCompatibility
+		ifAbsent: [ nil ].
 	self assert: registration notNil.
 	self
 		assert: registration projectName asString
@@ -71,21 +67,21 @@ PharoCompatibilityP13SurfacePharo14Test >> testMetacelloRegistryUnderstandsRegis
 PharoCompatibilityP13SurfacePharo14Test >> testMoveClassRefactoringUsesTheClassBeingRepackaged [
 
 	| className packageName targetClass |
-	className := 'PharoCompatibilityP14MoveProbe'.
+	className := #PharoCompatibilityP14MoveProbe.
 	packageName := 'PharoCompatibility-P14-MoveProbe'.
 	[
 	self removeClassNamed: className.
 	self removePackageNamed: packageName.
-	targetClass := (Object << className asSymbol)
-		               package: 'PharoCompatibility-Tests';
-		               tag: 'Tests';
-		               install.
+	targetClass := (Object << className)
+		package: 'PharoCompatibility-Tests';
+		tag: 'Tests';
+		install.
 	(PackageOrganizer default ensurePackage: packageName) ensureTag:
 		'Moved'.
 	(RBMoveClassTransformation
-		 move: className
-		 toPackage: packageName
-		 inTag: 'Moved') execute.
+		move: className
+		toPackage: packageName
+		inTag: 'Moved') execute.
 	self
 		assert: targetClass packageName asString
 		equals: packageName.
@@ -108,6 +104,14 @@ PharoCompatibilityP13SurfacePharo14Test >> testPharo13ContextTempNamesSelector [
 PharoCompatibilityP13SurfacePharo14Test >> testRefactoringChangeManagerClass [
 
 	self assert: PharoCompatibility refactoringChangeManagerClass equals: ReChangeManager
+]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testSyntaxErrorNoticeClassName [
+
+	self
+		assert: PharoCompatibility syntaxErrorNoticeClassName
+		equals: #OCSyntaxErrorNotice
 ]
 
 { #category : 'tests' }
