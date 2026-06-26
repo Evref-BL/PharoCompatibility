@@ -54,13 +54,9 @@ PharoCompatibilityP13SurfacePharo14Test >> testMetacelloRegistryUnderstandsRegis
 
 	| registration |
 	PharoCompatibility installPharo13Surface.
-	self assert:
-		(MetacelloProjectRegistration registry respondsTo:
-			 #registrationForClassNamed:ifAbsent:).
 	registration := MetacelloProjectRegistration registry
-		                registrationForClassNamed:
-		                'BaselineOfPharoCompatibility'
-		                ifAbsent: [ nil ].
+		registrationForClassNamed: 'BaselineOfPharoCompatibility'
+		ifAbsent: [ nil ].
 	self assert: registration notNil.
 	self
 		assert: registration projectName asString
@@ -108,6 +104,14 @@ PharoCompatibilityP13SurfacePharo14Test >> testPharo13ContextTempNamesSelector [
 PharoCompatibilityP13SurfacePharo14Test >> testRefactoringChangeManagerClass [
 
 	self assert: PharoCompatibility refactoringChangeManagerClass equals: ReChangeManager
+]
+
+{ #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testSyntaxErrorNoticeClassName [
+
+	self
+		assert: PharoCompatibility syntaxErrorNoticeClassName
+		equals: 'OCSyntaxErrorNotice'
 ]
 
 { #category : 'tests' }
