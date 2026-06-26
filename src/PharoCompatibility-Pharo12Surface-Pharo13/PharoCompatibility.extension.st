@@ -41,12 +41,9 @@ PharoCompatibility class >> icebergCommandLineCommitModifiedFilePaths: modifiedF
 { #category : '*PharoCompatibility-Pharo12Surface-Pharo13' }
 PharoCompatibility class >> icebergCommitAuthorName [
 
-	| authorClass fullName |
-	authorClass := Smalltalk at: #Author ifAbsent: [ nil ].
-	(authorClass notNil and: [ authorClass respondsTo: #fullNamePerSe ])
-		ifTrue: [
-			fullName := authorClass perform: #fullNamePerSe.
-			(fullName notNil and: [ fullName notEmpty ]) ifTrue: [ ^ fullName ] ].
+	| fullName |
+	fullName := PharoCompatibilityAuthor fullNamePerSe.
+	(fullName notNil and: [ fullName notEmpty ]) ifTrue: [ ^ fullName ].
 	^ 'PharoCompatibility'
 ]
 

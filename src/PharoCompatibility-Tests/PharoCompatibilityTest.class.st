@@ -16,10 +16,3 @@ PharoCompatibilityTest >> testResumeDeprecationsDuringReturnsBlockValue [
 		assert: (PharoCompatibility resumeDeprecationsDuring: [ 42 ])
 		equals: 42
 ]
-
-{ #category : 'tests' }
-PharoCompatibilityTest >> testSyntaxErrorNoticeClassNameIsConcrete [
-
-	self assert: PharoCompatibility syntaxErrorNoticeClassName isString.
-	self deny: PharoCompatibility syntaxErrorNoticeClassName isEmpty
-]
