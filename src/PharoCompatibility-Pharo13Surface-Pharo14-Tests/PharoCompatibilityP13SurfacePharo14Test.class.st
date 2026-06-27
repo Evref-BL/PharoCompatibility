@@ -115,6 +115,20 @@ PharoCompatibilityP13SurfacePharo14Test >> testSyntaxErrorNoticeClassName [
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo14Test >> testSyntaxNoticeFromCodeError [
+
+	| compiler notice |
+	compiler := SmalltalkImage current compiler.
+	compiler compilationContext isScripting: true.
+	[ compiler evaluate: '1 +' ]
+		on: Exception
+		do: [ :error |
+			notice := PharoCompatibility syntaxNoticeFromException: error ].
+	self assert: notice notNil.
+	self assert: notice class name equals: #OCSyntaxErrorNotice
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo14Test >> testUndeclaredVariableNodeFromCompilationError [
 
 	| node |
