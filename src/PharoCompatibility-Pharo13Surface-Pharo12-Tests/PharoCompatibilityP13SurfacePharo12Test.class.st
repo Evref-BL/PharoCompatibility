@@ -51,6 +51,19 @@ PharoCompatibilityP13SurfacePharo12Test >> testSyntaxErrorNoticeClassName [
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP13SurfacePharo12Test >> testUndeclaredVariableNodeFromCompileWarning [
+
+	| node |
+	[ Object
+		compile: 'pharoCompatibilityBrokenMethod ^ missingCompatibilityVariable' ]
+		on: Exception
+		do: [ :error |
+			node := PharoCompatibility undeclaredVariableNodeFromException: error ].
+	self assert: node notNil.
+	self assert: node name equals: #missingCompatibilityVariable
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP13SurfacePharo12Test >> testWithNonInteractiveAuthorUsesAuthorWhenNoAuthorIsConfigured [
 
 	| observedFullName |
