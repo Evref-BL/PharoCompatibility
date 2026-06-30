@@ -39,12 +39,11 @@ PharoCompatibility class >> icebergCommandLineCommitModifiedFilePaths: modifiedF
 ]
 
 { #category : '*PharoCompatibility-Pharo12Surface-Pharo13' }
-PharoCompatibility class >> icebergCommitAuthorName [
+PharoCompatibility class >> icebergCommitAuthorNameForRepository: repository [
 
-	| fullName |
-	fullName := PharoCompatibilityAuthor fullNamePerSe.
-	(fullName notNil and: [ fullName notEmpty ]) ifTrue: [ ^ fullName ].
-	^ 'PharoCompatibility'
+	^ self
+		gitOutputWithArguments: #( 'log' '-1' '--format=%an' )
+		in: repository location
 ]
 
 { #category : '*PharoCompatibility-Pharo12Surface-Pharo13' }
@@ -52,25 +51,16 @@ PharoCompatibility class >> icebergCommitForRepository: repository message: mess
 
 	| commitId |
 	commitId := self
-		            gitOutputWithArguments: #( 'rev-parse' 'HEAD' )
-		            in: repository location.
+		gitOutputWithArguments: #( 'rev-parse' 'HEAD' )
+		in: repository location.
 	^ IceGitCommit new
-		  id: commitId;
-		  author: self icebergCommitAuthorName;
-		  datetime: DateAndTime now;
-		  ancestorIds: (parentCommits collect: [ :each | each id ]);
-		  comment: message;
-		  repository: repository;
-		  yourself
-]
-
-{ #category : '*PharoCompatibility-Pharo12Surface-Pharo13' }
-PharoCompatibility class >> icebergCommitSignatureForRepositoryHandle: repositoryHandle [
-
-	^ LGitSignature
-		  name: self icebergCommitAuthorName
-		  email: 'pharo-compatibility@example.invalid'
-		  when: DateAndTime now
+		id: commitId;
+		author: (self icebergCommitAuthorNameForRepository: repository);
+		datetime: DateAndTime now;
+		ancestorIds: (parentCommits collect: [ :each | each id ]);
+		comment: message;
+		repository: repository;
+		yourself
 ]
 
 { #category : '*PharoCompatibility-Pharo12Surface-Pharo13' }
@@ -106,32 +96,13 @@ PharoCompatibility class >> runGitCommandWithArguments: argumentStrings in: repo
 { #category : '*PharoCompatibility-Pharo12Surface-Pharo13' }
 PharoCompatibility class >> runGitCommitWithMessage: message in: repositoryLocation [
 
-	| authorName command status |
-	authorName := self icebergCommitAuthorName.
-	command := String streamContents: [ :stream |
-		           stream
-			           nextPutAll: 'GIT_AUTHOR_NAME=';
-			           nextPutAll: (self posixShellQuote: authorName);
-			           space;
-			           nextPutAll: 'GIT_AUTHOR_EMAIL=';
-			           nextPutAll:
-				           (self posixShellQuote:
-						            'pharo-compatibility@example.invalid');
-			           space;
-			           nextPutAll: 'GIT_COMMITTER_NAME=';
-			           nextPutAll: (self posixShellQuote: authorName);
-			           space;
-			           nextPutAll: 'GIT_COMMITTER_EMAIL=';
-			           nextPutAll:
-				           (self posixShellQuote:
-						            'pharo-compatibility@example.invalid');
-			           space;
-			           nextPutAll: (self
-					            gitCommandWithArguments: {
-							            'commit'.
-							            '-m'.
-							            message withUnixLineEndings }
-					            in: repositoryLocation) ].
+	| command status |
+	command := self
+		gitCommandWithArguments: {
+			'commit'.
+			'-m'.
+			message withUnixLineEndings }
+		in: repositoryLocation.
 	status := LibC runCommand: command.
 	status = 0 ifFalse: [
 		Error signal: 'Git commit failed with status ' , status asString ]
