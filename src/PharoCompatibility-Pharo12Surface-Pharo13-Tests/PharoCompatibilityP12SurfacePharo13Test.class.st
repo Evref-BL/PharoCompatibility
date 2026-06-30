@@ -36,6 +36,40 @@ PharoCompatibilityP12SurfacePharo13Test >> testInstallPharo12SurfacePreservesMis
 ]
 
 { #category : 'tests' }
+PharoCompatibilityP12SurfacePharo13Test >> testRunGitCommitUsesRepositoryGitIdentity [
+
+	| author location |
+	location := FileLocator temp
+		/ ('PharoCompatibilityGitIdentity-' , UUID new asString).
+	location ensureCreateDirectory.
+	[
+	PharoCompatibility
+		runGitCommandWithArguments: #( 'init' )
+		in: location.
+	PharoCompatibility
+		runGitCommandWithArguments: #( 'config' 'user.name' 'Configured Author' )
+		in: location.
+	PharoCompatibility
+		runGitCommandWithArguments: #( 'config' 'user.email' 'configured@example.test' )
+		in: location.
+	(location / 'tracked.txt') writeStreamDo: [ :stream |
+		stream nextPutAll: 'tracked' ].
+	PharoCompatibility
+		runGitCommandWithArguments: #( 'add' '--' 'tracked.txt' )
+		in: location.
+	PharoCompatibility
+		runGitCommitWithMessage: 'Use configured identity'
+		in: location.
+	author := PharoCompatibility
+		gitOutputWithArguments: #( 'log' '-1' '--format=%an <%ae>' )
+		in: location.
+	self
+		assert: author
+		equals: 'Configured Author <configured@example.test>' ] ensure: [
+		location ensureDeleteAll ]
+]
+
+{ #category : 'tests' }
 PharoCompatibilityP12SurfacePharo13Test >> testWithNonInteractiveAuthorUsesShimWhenNoAuthorIsConfigured [
 
 	| observedFullName previousFullName |
